@@ -14,12 +14,34 @@ export default defineConfig({
   },
   plugins: [
     vue(),
-    Pages(),
+    Pages({
+      extendRoute(route, parent) {
+        if (route.path === '/') {
+          // Index is unauthenticated.
+          return { ...route, 
+            meta:{requiresAuth: false} 
+          }
+        }
+
+        if (route.path === '/index') {
+          // Index is unauthenticated.
+          return { ...route, 
+            meta:{requiresAuth: false} 
+          }
+        }
+
+        // Augment the route with meta that indicates that the route requires authentication.
+        return {
+          ...route,
+          meta: { requiresAuth: true },
+        }
+      },
+    }),
     Components({
       resolvers: [
         IconsResolver({
-          prefix:false,
-          enabledCollections:['heroicons-outline']
+          prefix: false,
+          enabledCollections: ['heroicons-outline']
         })
       ],
     }),

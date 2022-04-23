@@ -10,33 +10,24 @@
                 </div>
 
                 <button class="justify-center items-center w-8 h-8 sm:hidden" @click="toggleMenu">
-                    <heroicons-outline-menu class="w-5 h-5"/>
+                    <heroicons-outline-menu class="w-5 h-5" />
                 </button>
             </div>
             <div class="flex-grow sm:flex sm:flex-col justify-between" :class="showMenu ? '' : 'hidden'">
                 <!-- 主要選單 -->
                 <ul>
-                    <li>
-                        <RouterLink to="/" class="flex items-center px-5 py-3 text-white">
-                            <heroicons-outline-home class="w-5 h-5 mr-2" />
-                            首頁
-                        </RouterLink>
-                    </li>
-                    <li>
-                        <RouterLink to="/" class="flex items-center px-5 py-3 text-slate-400 hover:text-white">
-                            <heroicons-outline-document-text class="w-5 h-5 mr-2" />
-                            文章
-                        </RouterLink>
-                    </li>
-                    <li>
-                        <RouterLink to="/" class="flex items-center px-5 py-3 text-slate-400 hover:text-white">
-                            <heroicons-outline-user class="w-5 h-5 mr-2" />
-                            個人資料
+                    <li v-for="item in menuItems" :key="item.to">
+                        <RouterLink 
+                            :to="item.to"
+                            class="flex items-center px-4 py-3 sm:px-5"
+                            :class="isActive(item.to) ? 'text-white' : 'text-slate-400 hover:text-white dark:text-gray-400'">
+                            <component :is="item.icon" class="w-5 h-5 mr-2" />
+                            {{ item.text }}
                         </RouterLink>
                     </li>
                 </ul>
                 <!-- 用戶名稱(手機板) -->
-                <div class="mt-2 py-1 border-t border-slate-400 sm:hidden" >
+                <div class="mt-2 py-1 border-t border-slate-400 sm:hidden">
                     <div class="flex items-center px-4 py-3">
                         <img class="w-8 h-8 rouded-full mr-2"
                             src="https://cdn.jsdelivr.net/npm/slidev-theme-ycs77/public/images/lucas_v_avatar.jpg"
@@ -45,7 +36,8 @@
                     </div>
                 </div>
                 <!-- 用戶名稱(電腦版)-->
-                <div class="hidden sm:flex justify-between sm:items-center border-b px-5 py-4 border-t border-slate-400">
+                <div
+                    class="hidden sm:flex justify-between sm:items-center border-b px-5 py-4 border-t border-slate-400">
                     <div class="flex items-center">
                         <img class="w-8 h-8 rouded-full mr-2"
                             src="https://cdn.jsdelivr.net/npm/slidev-theme-ycs77/public/images/lucas_v_avatar.jpg"
@@ -75,12 +67,39 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
+import HeroiconsOutlineHome from '~icons/heroicons-outline/home'
+import HeroiconsOutlineDocumentText from '~icons/heroicons-outline/document-text'
+import HeroiconsOutlineUser from '~icons/heroicons-outline/user'
+import { useRoute } from 'vue-router'
+
 export default {
+    components: {
+        HeroiconsOutlineHome,
+        HeroiconsOutlineDocumentText,
+        HeroiconsOutlineUser
+    },
     setup() {
+        const route = useRoute()
+
         const showMenu = ref(false)
         const toggleMenu = () => showMenu.value = !showMenu.value
-        return { showMenu, toggleMenu }
+
+        const menuItems = [
+            { to: '/', text: '首頁', icon: 'heroicons-outline-home' },
+            { to: '/posts', text: '文章', icon: 'heroicons-outline-document-text' },
+            { to: '/setting', text: '個人資料', icon: 'heroicons-outline-user' }
+        ]
+
+        const activeItem = computed(() =>
+            [...menuItems]
+                .reverse()
+                .find(item => route.path.startsWith(item.to))
+        )
+
+        const isActive = to => to === activeItem.value.to
+        console.log(isActive)
+        return { showMenu, toggleMenu, menuItems, isActive }
     }
 }
 </script>
