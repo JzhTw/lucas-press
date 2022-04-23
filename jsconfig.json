@@ -9,5 +9,9 @@
     },
     "vueCompilerOptions": {
         "experimentalDisableTemplateSupport": true
-    }
+    },
+    "tailwindCSS.includeLanguages": {
+        "vue": "html",
+        "vue-html": "html",
+    },
 }

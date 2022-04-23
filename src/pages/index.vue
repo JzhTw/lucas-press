@@ -1,7 +1,7 @@
 <template>
-    <div>Home</div>
-    <!-- <IconHome class="w-8 h-8 text-violet-600"/> -->
-    <heroicons-outline-home class="w-8 h-8 text-violet-600"/>
+    <Layout>
+
+    </Layout>
 </template>
 
 <script>

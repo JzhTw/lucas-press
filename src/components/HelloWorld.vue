@@ -12,6 +12,7 @@ const count = ref(0)
   <h1 class="text-red-500 text-4xl font-normal">
     {{ msg }}
   </h1>
+  <div>abc</div>
   <p>
     Recommended IDE setup:
     <a href="https://code.visualstudio.com/" target="_blank">VS Code</a>
