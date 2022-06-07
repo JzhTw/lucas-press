@@ -9,17 +9,15 @@
                     <span class="text-xl font-medium">LucasPress</span>
                 </div>
 
-                <button class="justify-center items-center w-8 h-8 sm:hidden" @click="toggleMenu">
+                <button class="flex justify-center items-center w-8 h-8 sm:hidden" @click="toggleMenu">
                     <heroicons-outline-menu class="w-5 h-5" />
                 </button>
             </div>
-            <div class="flex-grow sm:flex sm:flex-col justify-between" :class="showMenu ? '' : 'hidden'">
+            <div class="flex-grow sm:flex sm:flex-col justify-between duration-1000" :class="showMenu ? '' : 'hidden'">
                 <!-- 主要選單 -->
                 <ul>
                     <li v-for="item in menuItems" :key="item.to">
-                        <RouterLink 
-                            :to="item.to"
-                            class="flex items-center px-4 py-3 sm:px-5"
+                        <RouterLink :to="item.to" class="flex items-center px-4 py-3 sm:px-5"
                             :class="isActive(item.to) ? 'text-white' : 'text-slate-400 hover:text-white dark:text-gray-400'">
                             <component :is="item.icon" class="w-5 h-5 mr-2" />
                             {{ item.text }}
@@ -57,11 +55,24 @@
         <!-- 右側內容區 -->
         <div class="flex-grow min-w-0">
             <slot></slot>
-            <div class="overflow-x-auto">
-                <pre>
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Corporis aliquid, optio fugiat magni soluta reprehenderit obcaecati eius facilis aperiam velit commodi. Deleniti voluptate aperiam quos magni at molestias aliquid earum?
-                </pre>
-            </div>
+            <Menu as="div" class="relative">
+                <MenuButton>More</MenuButton>
+                <MenuItems>
+                    <MenuItem v-slot="{ active }">
+                    <a :class='{ "bg-blue-500": active }' href="/account-settings">
+                        Account settings
+                    </a>
+                    </MenuItem>
+                    <MenuItem v-slot="{ active }">
+                    <a :class='{ "bg-blue-500": active }' href="/account-settings">
+                        Documentation
+                    </a>
+                    </MenuItem>
+                    <MenuItem disabled>
+                    <span class="opacity-75">Invite a friend (coming soon!)</span>
+                    </MenuItem>
+                </MenuItems>
+            </Menu>
         </div>
     </div>
 </template>
