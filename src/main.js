@@ -9,15 +9,15 @@ const router = createRouter({
     routes
 })
 
-router.beforeEach((to, from, next) => {
-    console.log(to, from)
-    if (to.name !== 'index' && !false){
-        next({ name: 'index' })
-    }
-    else{
-        next()
-    }
-})
+// router.beforeEach((to, from, next) => {
+//     console.log(to, from)
+//     if (to.name !== 'index' && !false){
+//         next({ name: 'index' })
+//     }
+//     else{
+//         next()
+//     }
+// })
 
 createApp(App)
     .use(router)

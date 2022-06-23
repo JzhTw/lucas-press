@@ -32,6 +32,19 @@
                             alt="">
                         <div class="font-medium tracking-wide">Lucas 洛可</div>
                     </div>
+
+                    <ul>
+                        <template v-for="item in userMenuItems" :key="item.text">
+                            <li v-if="item.mobile">
+                                <component :is="item.tag"
+                                    class="flex items-center px-4 py-3 text-slate-400 hover:text-white"
+                                    @click="item.onclick"
+                                    >
+                                    {{ item.text }}
+                                </component>
+                            </li>
+                        </template>
+                    </ul>
                 </div>
                 <!-- 用戶名稱(電腦版)-->
                 <div
@@ -48,30 +61,18 @@
                             class="flex justify-center items-center w-7 h-7 hover:bg-slate-400 rounded transition-colors duration-100">
                             <heroicons-outline-dots-vertical class="w-4 h-4" />
                         </MenuButton>
-                        <transition enter-active-class="transition duration-500 ease-out"
-                            enter-from-class="transform scale-95 opacity-0"
-                            enter-to-class="transform scale-100 opacity-100"
-                            leave-active-class="transition duration-75 ease-in"
-                            leave-from-class="transform scale-100 opacity-500"
-                            leave-to-class="transform scale-95 opacity-0">
+                        <TransitionZoom>
                             <MenuItems
                                 class="absolute left-full bottom-0 ml-2 flex flex-col w-32 bg-white rounded-md shadow-lg overflow-hidden origin-bottom-left">
-                                <MenuItem v-slot="{ active }"
-                                    class="px-4 py-2 text-gray-700 text-left text-base font-normal">
-                                <RouterLink to="/setting"
+                                <MenuItem v-slot="{ active }" v-for="item in userMenuItems" :key="item.text">
+                                <component :is="item.tag" to="/setting"
                                     class="px-3 py-2 text-gray-700 text-left text-base font-normal"
-                                    :class="active ? 'bg-gray-100' : ''">
-                                    個人資料12345645688哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈
-                                </RouterLink>
-                                </MenuItem>
-                                <MenuItem v-slot="{ active }" class="px-4 py-2 text-gray-700 text-left font-normal">
-                                <button class="px-3 py-2 text-gray-700 text-left text-base font-normal"
-                                    :class="active ? 'bg-gray-100' : ''">
-                                    登出
-                                </button>
+                                    :class="active ? 'bg-gray-100' : ''" @click="item.onclick">
+                                    {{ item.text }}
+                                </component>
                                 </MenuItem>
                             </MenuItems>
-                        </transition>
+                        </TransitionZoom>
                     </Menu>
                 </div>
             </div>
@@ -89,10 +90,10 @@
 
 <script>
 import { computed, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import HeroiconsOutlineHome from '~icons/heroicons-outline/home'
 import HeroiconsOutlineDocumentText from '~icons/heroicons-outline/document-text'
 import HeroiconsOutlineUser from '~icons/heroicons-outline/user'
-import { useRoute } from 'vue-router'
 
 export default {
     components: {
@@ -102,6 +103,7 @@ export default {
     },
     setup() {
         const route = useRoute()
+        const router = useRouter()
 
         const showMenu = ref(false)
         const toggleMenu = () => showMenu.value = !showMenu.value
@@ -112,6 +114,23 @@ export default {
             { to: '/setting', text: '個人資料', icon: 'heroicons-outline-user' }
         ]
 
+        const userMenuItems = [
+            {
+                tag: 'RouterLink',
+                to: '/setting',
+                text: '個人資料'
+            },
+            {
+                tag: 'button',
+                text: '登出',
+                mobile: true,
+                onclick: () => {
+                    console.log('here')
+                    router.push('/login')
+                }
+            }
+        ];
+
         const activeItem = computed(() =>
             [...menuItems]
                 .reverse()
@@ -119,8 +138,7 @@ export default {
         )
 
         const isActive = to => to === activeItem.value.to
-        console.log(isActive)
-        return { showMenu, toggleMenu, menuItems, isActive }
+        return { showMenu, toggleMenu, menuItems, isActive, userMenuItems }
     }
 }
 </script>
