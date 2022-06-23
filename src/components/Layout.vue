@@ -43,10 +43,36 @@
                         <div class="font-medium tracking-wide">Lucas 洛可</div>
                     </div>
 
-                    <button type="button"
-                        class="flex justify-center items-center w-7 h-7 hover:bg-slate-400 rounded transition-colors duration-100">
-                        <heroicons-outline-dots-vertical class="w-4 h-4" />
-                    </button>
+                    <Menu as="div" class="relative">
+                        <MenuButton
+                            class="flex justify-center items-center w-7 h-7 hover:bg-slate-400 rounded transition-colors duration-100">
+                            <heroicons-outline-dots-vertical class="w-4 h-4" />
+                        </MenuButton>
+                        <transition enter-active-class="transition duration-500 ease-out"
+                            enter-from-class="transform scale-95 opacity-0"
+                            enter-to-class="transform scale-100 opacity-100"
+                            leave-active-class="transition duration-75 ease-in"
+                            leave-from-class="transform scale-100 opacity-500"
+                            leave-to-class="transform scale-95 opacity-0">
+                            <MenuItems
+                                class="absolute left-full bottom-0 ml-2 flex flex-col w-32 bg-white rounded-md shadow-lg overflow-hidden origin-bottom-left">
+                                <MenuItem v-slot="{ active }"
+                                    class="px-4 py-2 text-gray-700 text-left text-base font-normal">
+                                <RouterLink to="/setting"
+                                    class="px-3 py-2 text-gray-700 text-left text-base font-normal"
+                                    :class="active ? 'bg-gray-100' : ''">
+                                    個人資料12345645688哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈
+                                </RouterLink>
+                                </MenuItem>
+                                <MenuItem v-slot="{ active }" class="px-4 py-2 text-gray-700 text-left font-normal">
+                                <button class="px-3 py-2 text-gray-700 text-left text-base font-normal"
+                                    :class="active ? 'bg-gray-100' : ''">
+                                    登出
+                                </button>
+                                </MenuItem>
+                            </MenuItems>
+                        </transition>
+                    </Menu>
                 </div>
             </div>
         </div>
@@ -55,24 +81,8 @@
         <!-- 右側內容區 -->
         <div class="flex-grow min-w-0">
             <slot></slot>
-            <Menu as="div" class="relative">
-                <MenuButton>More</MenuButton>
-                <MenuItems>
-                    <MenuItem v-slot="{ active }">
-                    <a :class='{ "bg-blue-500": active }' href="/account-settings">
-                        Account settings
-                    </a>
-                    </MenuItem>
-                    <MenuItem v-slot="{ active }">
-                    <a :class='{ "bg-blue-500": active }' href="/account-settings">
-                        Documentation
-                    </a>
-                    </MenuItem>
-                    <MenuItem disabled>
-                    <span class="opacity-75">Invite a friend (coming soon!)</span>
-                    </MenuItem>
-                </MenuItems>
-            </Menu>
+
+
         </div>
     </div>
 </template>
