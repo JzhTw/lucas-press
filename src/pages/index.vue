@@ -1,34 +1,20 @@
 <template>
     <Layout>
         <div class="p-4 space-y-4">
-            <div class="space-x-4">
-                <PrimaryButton disabled>
-                    主要按鈕
-                </PrimaryButton>
-
-                <PrimaryButton to="/">
-                    主要按鈕
-                </PrimaryButton>
+            <div>
+                <input type="text" class="form-input">
             </div>
-
-            <div class="space-x-4">
-                <SencondaryButton disabled>
-                    次要按鈕
-                </SencondaryButton>
-
-                <SencondaryButton to="/login">
-                    次要按鈕
-                </SencondaryButton>
+            <div>
+                <textarea class="form-textarea"></textarea>
             </div>
+            <div>
+                <label>
+                    <input type="radio" class="form-radio">單選框
+                </label>
 
-            <div class="space-x-4">
-                <DangerButton disabled>
-                    刪除按鈕
-                </DangerButton>
-
-                <DangerButton to="/about">
-                    次要按鈕
-                </DangerButton>
+                <label>
+                    <input type="checkbox" class="form-checkbox">多選框
+                </label>
             </div>
         </div>
     </Layout>

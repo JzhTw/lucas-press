@@ -6,4 +6,6 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+@import 'base';
+@import 'form';
 @import 'components';
